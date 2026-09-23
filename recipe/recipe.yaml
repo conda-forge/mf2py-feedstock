@@ -1,0 +1,49 @@
+schema_version: 1
+
+context:
+  name: mf2py
+  version: "2.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/source/${{ name[0] }}/${{ name }}/mf2py-${{ version }}.tar.gz
+  sha256: 2851972e514673add74cd2f2898453a50945029ea4a7d32cfdbf231985282ee9
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - poetry-core >=1.0.0
+    - pip
+  run:
+    - python >=${{ python_min }}
+    - html5lib >=1.1.0,<2.0.0
+    - requests >=2.28.2,<3.0.0
+    - beautifulsoup4 >=4.11.1,<5.0.0
+
+tests:
+  - python:
+      imports:
+        - mf2py
+      pip_check: true
+      python_version:
+        - ${{ python_min }}.*
+        - "*"
+
+about:
+  summary: Microformats2 parser written in Python
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/microformats/mf2py
+  documentation: https://microformats.github.io/mf2py/
+
+extra:
+  recipe-maintainers:
+    - thewchan
